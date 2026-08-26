@@ -1,0 +1,6 @@
+Drop your song in this folder named exactly:
+
+  our-song.mp3
+
+The music player appears automatically once the file exists.
+If there is no file, the player stays hidden — no errors.
