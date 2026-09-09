@@ -5,12 +5,39 @@ import { MEMORIES } from '../data/loveData.js'
 import Reveal from './effects/Reveal.jsx'
 
 // Soft decorative art panel — no photos needed, just pretty.
+// Real photo/video when `src` is given, otherwise a soft decorative art panel.
 function MemoryArt({ memory, className = '', big = false }) {
+  if (memory.src && memory.type === 'video') {
+    return (
+      <div className={`relative overflow-hidden bg-ink/10 ${className}`}>
+        <video
+          src={memory.src}
+          className="h-full w-full object-cover"
+          controls
+          playsInline
+          preload="metadata"
+        />
+      </div>
+    )
+  }
+
+  if (memory.src) {
+    return (
+      <div className={`relative overflow-hidden bg-ink/10 ${className}`}>
+        <img
+          src={memory.src}
+          alt={memory.title}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br ${memory.gradient} ${className}`}
     >
-      {/* faint drifting glyphs */}
       {['♡', '✦', '❀', '✧', '♡'].map((g, i) => (
         <span
           key={i}
@@ -109,7 +136,7 @@ export default function Memories() {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-cream shadow-lifted"
             >
-              <MemoryArt memory={MEMORIES[active]} className="h-52 w-full sm:h-60" big />
+              <MemoryArt memory={MEMORIES[active]} className="h-72 w-full sm:h-96" big />
               <div className="p-7">
                 <p className="text-[11px] uppercase tracking-[0.25em] text-rose">
                   {MEMORIES[active].date}
